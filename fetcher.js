@@ -1,10 +1,19 @@
 const fs = require('fs');
 const request = require('request');
-const host = process.argv;
-const domain = host[2];
+const url = process.argv[2];
+const fileNameAndLocation = process.argv[3];
 
-request(domain, (error, response, body) => {
-  console.log('error', error);
-  
-  
+
+const fileWrite = (htmlContent) => {
+  fs.writeFile(fileNameAndLocation, htmlContent, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(`Downloaded and saved ${htmlContent.length} bytes to ${fileNameAndLocation}`);
+    }
+  });
+};
+request(url, (error, response, urlContent) => {
+  fileWrite(urlContent);
 });
+
